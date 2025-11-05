@@ -9,8 +9,7 @@ from knn import KNN
 
 # Load data
 iris = datasets.load_iris()
-X, y = iris.data, iris.target
-
+X, y = iris.data, iris.target  # X: values. y: classes
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
@@ -25,6 +24,8 @@ predictions = clf.predict(X_test)
 acc = np.sum(predictions == y_test) / len(y_test)
 print(acc)
 
+# Plot
 fig, ax = plt.subplots()
-ax.scatter(X_test, y_test)
-fig.show()
+ax.scatter(X_test[:, 2], X_test[:, 3], c=y_test)
+fig.suptitle('knn predictions (color = predicted class)')
+plt.show()

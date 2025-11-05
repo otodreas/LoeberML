@@ -2,6 +2,7 @@
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 from knn import KNN
 
@@ -13,9 +14,17 @@ X, y = iris.data, iris.target
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-clf = KNN(k=3)  # Create classifier
+# Create classifier
+clf = KNN(k=3)
+# Fit data (in this case, this step is only necessary for assigning variables)
 clf.fit(X_train, y_train)
+# Generate predictions using the entire X_test set
 predictions = clf.predict(X_test)
 
-acc = np.sum(predictions == y_test) / len(y_test)  # how many of our predictions are correctly classified?
+# Check how many of our predictions are correctly classified
+acc = np.sum(predictions == y_test) / len(y_test)
 print(acc)
+
+fig, ax = plt.subplots()
+ax.scatter(X_test, y_test)
+fig.show()

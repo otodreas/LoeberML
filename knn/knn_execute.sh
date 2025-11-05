@@ -12,7 +12,7 @@ fi
 source ../.venv/bin/activate
 
 # Install libraries
-if [ $(pip list | grep -c "scikit-learn") -lt 1]; then
+if [ $(pip list | grep -c "scikit-learn") -lt 1 ]; then
   pip install scikit-learn
 fi
 

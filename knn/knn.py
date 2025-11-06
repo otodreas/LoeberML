@@ -22,6 +22,7 @@ KNN DEMO Notes
 import numpy as np
 from collections import Counter
 
+
 # Calculate euclidian distance between two points in one dimension
 def euclidian_distance(x1, x2):
     """
@@ -32,7 +33,6 @@ def euclidian_distance(x1, x2):
 
 # Create class KNN
 class KNN:
-
     # Take k (number of nearest neighbors to consider)
     def __init__(self, k=3):
         self.k = k

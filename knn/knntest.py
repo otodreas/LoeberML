@@ -32,7 +32,7 @@ acc = np.sum(predictions == y_test) / len(y_test)
 # Print summary
 print(f"True class:      {y_test}")
 print(f"Predicted class: {predictions}")
-print(f"Accuracy of classifier: {round(acc*100, 2)}%")
+print(f"Accuracy of classifier: {round(acc * 100, 2)}%")
 
 # Create figure, plot distribution of each feature by class
 fig, axs = plt.subplots(X_train.shape[1], 1)

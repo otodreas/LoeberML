@@ -1,4 +1,6 @@
 """
+This file defines the functions used to classify with knn
+
 KNN DEMO Notes
     - KNN: sampleS classified by DNN
     - Each data point is represented by a feature

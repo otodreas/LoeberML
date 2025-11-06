@@ -1,3 +1,7 @@
+"""
+This file tests the algorithms developed in knn.py on the iris dataset.
+"""
+
 # Import libraries
 import numpy as np
 from sklearn import datasets

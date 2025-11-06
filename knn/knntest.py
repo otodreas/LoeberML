@@ -6,6 +6,8 @@ This file tests the algorithms developed in knn.py on the iris dataset.
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from knn import KNN
 
@@ -32,7 +34,14 @@ print(f"True class:      {y_test}")
 print(f"Predicted class: {predictions}")
 print(f"Accuracy of classifier: {round(acc*100, 2)}%")
 
+# Create figure, plot distribution of each feature by class
+fig, axs = plt.subplots(X_train.shape[1], 1)
+for i, col in enumerate(range(X_train.shape[1])):
+    dist = X_train[:, col]
+    legend = True if i == 0 else False
+    sns.boxplot(x=dist, hue=y_train, legend=legend, ax=axs[i])
 
-# # Get the distribution of each variable
-# for i, col in enumerate(range(X_train.shape[1])):
-#     dist = X_train[:, col]
+axs[0].legend(bbox_to_anchor=(1, 1), loc=2)
+plt.suptitle("Distributions of features by class")
+plt.tight_layout()
+plt.show()

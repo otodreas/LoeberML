@@ -35,7 +35,9 @@ class LinearRegression:
         self.bias = 0
 
         # Gradient descent
-        for _ in range(self.n_iters):
+        dws = np.zeros(self.n_iters)
+        dbs = np.zeros(self.n_iters)
+        for i in range(self.n_iters):
             # Multiply each weight component by feature vector component, one value for each sample
             y_predicted = np.dot(X, self.weights) + self.bias  # np.dot = multiplication
             # Derivative of weight, one value for each feature vector component
@@ -46,9 +48,19 @@ class LinearRegression:
             # Derivative of bias
             db = (1 / n_samples) * np.sum(y_predicted - y)
 
+            dws[i] = dw
+            dbs[i] = db
+
+
+
             # Update weights
             self.weights -= self.lr * dw
             self.bias -= self.lr * db
+
+        print(self.weights)
+        print(self.bias)
+
+        return dws, dbs
 
     # New test samples used to predict and return value
     def predict(self, X):

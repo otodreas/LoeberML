@@ -16,78 +16,80 @@ We use gradient decent to find the minimum MSE (iterative process)
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Create classifier
 class LinearRegression:
     def __init__(self, lr=0.001, n_iters=1000):
-        # Assign variables
         self.lr = lr
         self.n_iters = n_iters
-        # Define weights and bias later
         self.weights = None
         self.bias = None
 
     # Fit model (optimize regression curve through gradient descent)
     def fit(self, X, y):
-        # Initialize parameters (gradient descent needs to start somewhere)
-        # Get number of samples and number of features
-        """
-        The fit function fits a regression model to the data using the
-        following procedure:
-            1. Initialize weights and bias at 0
-                a. One weight per feature (dimension of X)
-                b. One bias for the whole model
-            2. Initialize a loop for the number of iterations set by the user
-                a. Predict y value for each data point in each iteration
-                b. Get the derivative of the weights and bias at each iteration
-                    i.  Derivative of weight: 1/n * X*(y_pred-y). As guesses
-                    get better, y_pred-y approaches 0, entire term approaches
-                    0, weight stops improving.
-                    ii. Derivative of bias: 1/n * sum(y-y_pred). Same logic for
-                    y-y_pred applies.
-                c. Update weights and biases. derivative of weight OR bias *
-                learning rate is SUBTRACTED from weight or bias. Learning rate
-                determines how large a gradient descent step is for each
-                iteration
-        """
         n_samples, n_features = X.shape
-        # One weight per feature, bias is 0 for the whole model
-        self.weights = np.zeros(n_features)  # for each component, put a 0
+        self.weights = np.zeros(n_features)
         self.bias = 0
 
+        weights_arr = np.zeros(self.n_iters)
+        bias_arr = np.zeros(self.n_iters)
+
         # Gradient descent
-        dws = np.zeros(self.n_iters)
-        dbs = np.zeros(self.n_iters)
         for i in range(self.n_iters):
-            # Multiply each weight component by feature vector component, one value for each sample
-            y_predicted = np.dot(X, self.weights) + self.bias  # np.dot = multiplication
-            # if i == 0 or i == self.n_iters - 1:
-            #     print(f"X: i={i}, {X[0][:10]}")
-            #     print(f"y_pred: i={i}, {y_predicted[:10]}")
-            # Derivative of weight, one value for each feature vector component
-            dw = (1 / n_samples) * np.dot(
-                X.T, (y_predicted - y)
-            )  # Multiply each sample with predicted value, and sum it up
-            # Derivative of bias
+            """
+            Perform n_iters iterations of gradient descent:
+                1. Generate predictions for y values for each X value. The
+                inputs and predictions have a linear relationship because each
+                input is multiplied by a constant weight and added to a
+                constant bias. 
+                2. Get the derivatives of weight by multiplying the dot product
+                of each input value by the difference between the true and
+                predicted output values by 1/number of samples. Any number
+                above the regression line will "push" the derivative of weight
+                towards negative since the slope needs to be more positive to
+                get the regression line closer to those data points, minimizing
+                the cost function. The opposite is true for points whose true
+                output is lower than their predicted output. The dot product of
+                these terms the sum of each of these terms. The sign of the dot
+                product determines the sign of the derivative, which informs
+                which direction gradient descent is performed. A negative
+                derivative pushes the weight into the positive direction and
+                vice versa.
+                3. Get the derivative of bias by summing the differences
+                between the true and predicted output and multiplying it by the
+                sample scaler 1/number of samples. Since the value of the input
+                is not relevant for the value of the bias, inputs are ignored.
+                A negative derivative of bias pushes the bias into the positive
+                and vice versa.
+            """
+            y_predicted = np.dot(X, self.weights) + self.bias
+            dw = (1 / n_samples) * np.dot(X.T, (y_predicted - y))
             db = (1 / n_samples) * np.sum(y_predicted - y)
-
-            if i == 0 or i == self.n_iters - 1:
-                print(f"1/N*X*y_pred-y: {X.T.shape}, {(y_predicted - y).shape}")
-
-            # dws[i] = dw
-            # dbs[i] = db
-
-
-
             # Update weights
             self.weights -= self.lr * dw
             self.bias -= self.lr * db
+            weights_arr[i] = self.weights
+            bias_arr[i] = self.bias
 
-
-
-        # return dws, dbs
+        fig, axs = plt.subplots(2, 1)
+        functions = [weights_arr, bias_arr]
+        titles = ['Weight (Slope)', 'Bias (Intercept)']
+        for i, ax in enumerate(axs):
+            ax.plot(functions[i])
+            ax.set_ylabel(titles[i])
+            ax.set_xlabel('Iterations')
+        fig.suptitle("Gradient descent of iteration components")
+        plt.tight_layout()
+        plt.show()
 
     # New test samples used to predict and return value
     def predict(self, X):
+        """
+        Predict the output for each input using the weight and bias calculated
+        by applying the linear regression model to each input. Each predicted
+        output will be compared to the corresponding true output and the MSE
+        will be calculated in the function mse in linregtest.
+        """
         y_predicted = np.dot(X, self.weights) + self.bias
         return y_predicted

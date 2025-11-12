@@ -8,7 +8,7 @@ from linreg import LinearRegression
 X, y = datasets.make_regression(n_samples=100, n_features=1, noise=20, random_state=0)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-regressor = LinearRegression(lr=.1, n_iters=50)
+regressor = LinearRegression(lr=.1, n_iters=100)
 regressor.fit(X_train, y_train)  # generate model
 predicted = regressor.predict(X_test)  # test model
 

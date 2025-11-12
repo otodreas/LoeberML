@@ -79,9 +79,12 @@ class LinearRegression:
             ax.plot(functions[i])
             ax.set_ylabel(titles[i])
             ax.set_xlabel('Iterations')
-        fig.suptitle("Gradient descent of iteration components")
+        fig.suptitle("Gradient descent of regression components over iterations")
         plt.tight_layout()
         plt.show()
+
+        print(self.weights)
+        print(self.bias)
 
     # New test samples used to predict and return value
     def predict(self, X):

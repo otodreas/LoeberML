@@ -32,7 +32,7 @@ class LinearRegression:
         self.weights = np.zeros(n_features)
         self.bias = 0
 
-        weights_arr = np.zeros(self.n_iters)
+        weights_arr = np.zeros((self.n_iters, n_features))
         bias_arr = np.zeros(self.n_iters)
 
         # Gradient descent
@@ -58,7 +58,7 @@ class LinearRegression:
                 vice versa.
                 3. Get the derivative of bias by summing the differences
                 between the true and predicted output and multiplying it by the
-                sample scaler 1/number of samples. Since the value of the input
+                sample scalar 1/number of samples. Since the value of the input
                 is not relevant for the value of the bias, inputs are ignored.
                 A negative derivative of bias pushes the bias into the positive
                 and vice versa.
